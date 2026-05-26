@@ -1,5 +1,5 @@
 CREATE TABLE places (
-                        id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                        id          UUID         PRIMARY KEY DEFAULT uuid_generate_v4(),
                         author_id   UUID         NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                         title       VARCHAR(100) NOT NULL,
                         description TEXT,
@@ -11,7 +11,7 @@ CREATE TABLE places (
 CREATE INDEX idx_places_author ON places(author_id);
 
 CREATE TABLE products (
-                          id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                          id          UUID         PRIMARY KEY DEFAULT uuid_generate_v4(),
                           author_id   UUID         NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                           title       VARCHAR(100) NOT NULL,
                           description TEXT,
