@@ -34,6 +34,35 @@ public class Place extends BaseEntity {
     @Column(length = 200)
     private String location;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private Category category = Category.OSTALO;
+
+    @Builder.Default
     @Column(name = "avg_rating")
     private BigDecimal avgRating = BigDecimal.ZERO;
+
+    public enum Category {
+        VIKENDICA("Vikendica / Kuća za odmor"),
+        ETNO_SELO("Etno selo"),
+        PRENOCISTE("Prenoćište / Motel"),
+        RESTORAN("Restoran"),
+        KAFANA("Kafana"),
+        SEOSKO_DOMACINSTVO("Seosko domaćinstvo"),
+        RANC("Ranč"),
+        VINARIJA("Vinarija"),
+        BANJA("Banja / Spa"),
+        IZLETISTE("Izletište"),
+        OSTALO("Ostalo");
+
+        private final String label;
+
+        Category(String label) {
+            this.label = label;
+        }
+
+        public String getLabel() {
+            return label;
+        }
+    }
 }
