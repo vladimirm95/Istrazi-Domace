@@ -86,6 +86,14 @@ public class PlaceService {
     public void delete(UUID id) {
         Place place = findPlaceOrThrow(id);
         assertOwner(place);
+
+        // Obrisi fajlove sa diska
+        List<Photo> photos = photoRepository
+                .findByEntityIdAndEntityTypeOrderBySortOrderAsc(id, Photo.EntityType.PLACE);
+        for (Photo photo : photos) {
+            deleteFileFromDisk(photo.getUrl());
+        }
+
         photoRepository.deleteByEntityIdAndEntityType(id, Photo.EntityType.PLACE);
         placeRepository.delete(place);
     }
@@ -147,6 +155,7 @@ public class PlaceService {
             throw new RuntimeException("Fotografija ne pripada ovom mestu");
         }
 
+        deleteFileFromDisk(photo.getUrl());
         photoRepository.delete(photo);
     }
 
@@ -184,5 +193,15 @@ public class PlaceService {
                 .map(Photo::getUrl)
                 .toList();
         return PlaceResponse.from(place, urls);
+    }
+    private void deleteFileFromDisk(String url) {
+        try {
+            // url je npr. "/uploads/places/uuid.jpg"
+            Path filePath = Paths.get(url.substring(1)); // skloni prvi "/"
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            // Ne prekidamo transakciju zbog fajla vec samo logujemo
+            System.err.println("Nije moguće obrisati fajl: " + url + " - " + e.getMessage());
+        }
     }
 }

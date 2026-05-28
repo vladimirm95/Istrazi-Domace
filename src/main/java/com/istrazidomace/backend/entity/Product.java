@@ -31,9 +31,13 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(length = 50)
-    private String category;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal price;
 
+    @Column(length = 50)
+    private String unit;
+
+    @Builder.Default
     @Column(name = "avg_rating")
     private BigDecimal avgRating = BigDecimal.ZERO;
 }

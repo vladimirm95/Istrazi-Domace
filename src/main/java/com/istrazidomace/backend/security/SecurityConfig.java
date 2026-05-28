@@ -41,7 +41,9 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/places",
                                 "/api/places/search",
-                                "/api/places/categories"
+                                "/api/places/categories",
+                                "/api/products",
+                                "/api/products/search"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                         .anyRequest().authenticated()
