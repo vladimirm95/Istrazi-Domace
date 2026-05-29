@@ -46,6 +46,11 @@ public class SecurityConfig {
                                 "/api/products/search"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/places/*").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/products/*").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
